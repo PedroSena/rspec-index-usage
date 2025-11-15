@@ -1,0 +1,1 @@
+require_relative 'rspec/matchers/uses_index'
