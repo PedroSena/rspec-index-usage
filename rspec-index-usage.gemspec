@@ -1,8 +1,8 @@
 Gem::Specification.new do |s|
-  s.name        = 'uses_index'
+  s.name        = 'rspec-index-usage'
   s.version     = '0.0.1'
-  s.summary     = 'RSpec matcher to check if a query uses a particular index'
-  s.description = 'Provides an RSpec matcher that verifies whether an ActiveRecord query is using a specific database index by examining the query execution plan. Supports SQLite and PostgreSQL.'
+  s.summary     = 'RSpec matcher to check database index usage in queries'
+  s.description = 'Provides RSpec matchers that verify whether ActiveRecord queries or code blocks use specific database indexes by examining execution plans. Supports SQLite and PostgreSQL.'
   s.authors     = ['Pedro Sena']
   s.email       = 'sena.pedro@gmail.com'
   s.files       = Dir['lib/**/*.rb']
@@ -10,8 +10,8 @@ Gem::Specification.new do |s|
   s.license = 'MIT'
   s.required_ruby_version = '>= 2.7'
   s.metadata = {
-    'homepage_uri' => 'https://github.com/PedroSena/uses_index',
-    'source_code_uri' => 'https://github.com/PedroSena/uses_index'
+    'homepage_uri' => 'https://github.com/PedroSena/rspec-index-usage',
+    'source_code_uri' => 'https://github.com/PedroSena/rspec-index-usage'
   }
 
   s.add_dependency 'activerecord', '>= 6.0'

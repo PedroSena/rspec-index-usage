@@ -15,4 +15,8 @@ class IndexChecker
   def check(query, expected_index)
     raise NotImplementedError, 'Subclasses must implement check'
   end
+
+  def check_sql(sql, expected_index)
+    raise NotImplementedError, 'Subclasses must implement check_sql'
+  end
 end

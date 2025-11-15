@@ -1,5 +1,5 @@
 require 'active_record'
-require 'uses_index'
+require 'rspec-index-usage'
 
 # Set up PostgreSQL connection
 ActiveRecord::Base.establish_connection(
@@ -11,8 +11,10 @@ ActiveRecord::Base.establish_connection(
   port: ENV['POSTGRES_PORT'] || 5432
 )
 
-require_relative 'support/shared_examples'
+require_relative 'support/shared_examples/use_index'
+require_relative 'support/shared_examples/have_used_index'
 
 RSpec.describe 'use_index matcher with PostgreSQL' do
   include_examples 'use_index matcher'
+  include_examples 'have_used_index matcher'
 end

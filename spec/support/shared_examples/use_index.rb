@@ -1,16 +1,4 @@
-require 'active_record'
-
-class CreateUsers < ActiveRecord::Migration[6.0]
-  def change
-    create_table :users do |t|
-      t.string :email
-      t.string :name
-      t.index :email
-    end
-  end
-end
-
-class User < ActiveRecord::Base; end
+require_relative '../models'
 
 RSpec.shared_examples 'use_index matcher' do
   before(:all) do
@@ -44,4 +32,3 @@ RSpec.shared_examples 'use_index matcher' do
       raise_error('Unsupported database adapter: MySQL. Currently supports SQLite and PostgreSQL.')
   end
 end
-

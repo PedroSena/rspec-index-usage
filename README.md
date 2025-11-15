@@ -1,6 +1,6 @@
-# UsesIndex
+# RSpec Index Usage
 
-An RSpec matcher that checks whether an ActiveRecord query is using a particular database index.
+RSpec matchers that check database index usage in ActiveRecord queries and code blocks.
 
 ## Requirements
 
@@ -12,7 +12,7 @@ An RSpec matcher that checks whether an ActiveRecord query is using a particular
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'uses_index'
+gem 'rspec-index-usage'
 ```
 
 And then execute:
@@ -23,28 +23,29 @@ This will install the gem along with its runtime dependency on ActiveRecord >= 6
 
 Or install it yourself as:
 
-    $ gem install uses_index
+    $ gem install rspec-index-usage
 
 ## Usage
 
 Add to your Gemfile:
 
 ```ruby
-gem 'uses_index'
+gem 'rspec-index-usage'
 ```
 
 Then in your specs:
 
 ```ruby
-require 'uses_index'
+require 'rspec-index-usage'
 
 # In your specs
 expect(User.where(email: 'test@example.com')).to use_index('index_users_on_email')
+expect { User.where(email: 'test@example.com').first }.to have_used_index('index_users_on_email')
 ```
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/PedroSena/uses_index.
+Bug reports and pull requests are welcome on GitHub at https://github.com/PedroSena/rspec-index-usage.
 
 ## License
 
