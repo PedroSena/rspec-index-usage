@@ -1,5 +1,6 @@
 class IndexChecker
-  def self.for_adapter(adapter_name)
+  def self.for_adapter(connection)
+    adapter_name = connection.adapter_name
     case adapter_name
     when 'SQLite'
       require_relative 'sqlite' unless defined?(SqliteIndexChecker)
@@ -12,11 +13,11 @@ class IndexChecker
     end
   end
 
-  def check(query, expected_index)
+  def check(query, expected_index, connection = ActiveRecord::Base.connection)
     raise NotImplementedError, 'Subclasses must implement check'
   end
 
-  def check_sql(sql, expected_index)
+  def check_sql(sql, expected_index, connection = ActiveRecord::Base.connection)
     raise NotImplementedError, 'Subclasses must implement check_sql'
   end
 end

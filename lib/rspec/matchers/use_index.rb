@@ -3,10 +3,11 @@ require 'uses_index/index_checkers/base'
 
 RSpec::Matchers.define :use_index do |expected_index|
   match do |query|
-    # Assuming query is an ActiveRecord::Relation
-    checker_class = IndexChecker.for_adapter(ActiveRecord::Base.connection.adapter_name)
+    # query is an ActiveRecord::Relation
+    connection = query.connection
+    checker_class = IndexChecker.for_adapter(connection)
     checker = checker_class.new
-    checker.check(query, expected_index)
+    checker.check(query, expected_index, connection)
   end
 
   failure_message do |query|

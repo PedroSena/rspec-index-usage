@@ -41,6 +41,7 @@ require 'rspec-index-usage'
 # In your specs
 expect(User.where(email: 'test@example.com')).to use_index('index_users_on_email')
 expect { User.where(email: 'test@example.com').first }.to have_used_index('index_users_on_email')
+expect { User.where(email: 'test@example.com').first }.to have_used_index('index_users_on_email').on_connection(OtherDb.connection)
 ```
 
 ## Contributing
