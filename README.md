@@ -39,8 +39,14 @@ Then in your specs:
 require 'rspec-index-usage'
 
 # In your specs
+# Using a query
 expect(User.where(email: 'test@example.com')).to use_index('index_users_on_email')
+
+# Using a block
 expect { User.where(email: 'test@example.com').first }.to have_used_index('index_users_on_email')
+
+# Using a block but specifying one particular database connection
+# This is only needed when you have more than one database setup
 expect { User.where(email: 'test@example.com').first }.to have_used_index('index_users_on_email').on_connection(OtherDb.connection)
 ```
 
