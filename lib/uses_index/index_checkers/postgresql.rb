@@ -6,11 +6,25 @@ class PostgresqlIndexChecker < IndexChecker
     check_sql(sql, expected_index, connection)
   end
 
-  def check_sql(sql, expected_index, connection = ActiveRecord::Base.connection)
+  def check_sql(sql, expected_index, connection = ActiveRecord::Base.connection, binds: nil)
+    if binds
+      sql = substitute_binds(sql, binds, connection)
+    end
     explain_sql = "EXPLAIN #{sql}"
     result = connection.execute(explain_sql)
-    plan = result.map { |row| row[0] }.join("\n")
+    plan = result.map { |row| row['QUERY PLAN'] }.join("\n")
     plan.include?(expected_index)
+  end
+
+  private
+
+  def substitute_binds(sql, binds, connection)
+    binds.each_with_index do |bind, index|
+      placeholder = "$#{index + 1}"
+      quoted_value = connection.quote(bind.value)
+      sql = sql.gsub(placeholder, quoted_value)
+    end
+    sql
   end
 end
 

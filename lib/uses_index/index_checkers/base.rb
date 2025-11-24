@@ -17,7 +17,7 @@ class IndexChecker
     raise NotImplementedError, 'Subclasses must implement check'
   end
 
-  def check_sql(sql, expected_index, connection = ActiveRecord::Base.connection)
+  def check_sql(sql, expected_index, connection = ActiveRecord::Base.connection, binds: nil)
     raise NotImplementedError, 'Subclasses must implement check_sql'
   end
 end

@@ -18,7 +18,9 @@ RSpec::Matchers.define :have_used_index do |expected_index|
       sql = event.payload[:sql]
       next unless sql
 
-      queries << sql if sql.start_with?('SELECT') && !sql.match?(/\A(EXPLAIN|BEGIN|COMMIT|ROLLBACK)/i)
+      if sql.start_with?('SELECT') && !sql.match?(/\A(EXPLAIN|BEGIN|COMMIT|ROLLBACK)/i)
+        queries << { sql: sql, binds: event.payload[:binds] }
+      end
     end
 
     block.call
@@ -29,15 +31,14 @@ RSpec::Matchers.define :have_used_index do |expected_index|
     checker_class = IndexChecker.for_adapter(connection)
     checker = checker_class.new
 
-    queries.any? { |sql| checker.check_sql(sql, expected_index, connection) }
+    queries.any? { |query| checker.check_sql(query[:sql], expected_index, connection, binds: query[:binds]) }
   end
 
-  failure_message do |block|
+  failure_message do |_block|
     "expected the block to execute a query using index '#{expected_index}', but none did"
   end
 
-  failure_message_when_negated do |block|
+  failure_message_when_negated do |_block|
     "expected the block not to execute a query using index '#{expected_index}', but one did"
   end
 end
-
