@@ -26,7 +26,7 @@ jobs:
           bundler-cache: true
       - name: Install dependencies
         run: bundle install
-      - name: Run SQLite tests
+      - name: Run Postgres tests
         run: bundle exec rspec spec/postgres_uses_index_spec.rb
         env:
           POSTGRES_DB: uses_index_test
