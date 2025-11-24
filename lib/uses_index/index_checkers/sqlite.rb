@@ -7,9 +7,7 @@ class SqliteIndexChecker < IndexChecker
   end
 
   def check_sql(sql, expected_index, connection = ActiveRecord::Base.connection, binds: nil)
-    if binds
-      sql = substitute_binds(sql, binds, connection)
-    end
+    sql = substitute_binds(sql, binds, connection) if binds
     explain_sql = "EXPLAIN QUERY PLAN #{sql}"
     result = connection.execute(explain_sql)
     plan = result.map { |row| row.values.join(' ') }.join(' ')
@@ -22,9 +20,8 @@ class SqliteIndexChecker < IndexChecker
     parts = sql.split('?')
     if parts.size - 1 == binds.size
       sql = parts.zip(binds.map { |bind| connection.quote(bind.value) }).flatten.compact.join
-    else
-      sql
     end
     sql
   end
 end
+
