@@ -7,13 +7,11 @@ class PostgresqlIndexChecker < IndexChecker
   end
 
   def check_sql(sql, expected_index, connection = ActiveRecord::Base.connection, binds: nil)
-    if binds
-      sql = substitute_binds(sql, binds, connection)
-    end
+    sql = substitute_binds(sql, binds, connection) if binds
     explain_sql = "EXPLAIN #{sql}"
     result = connection.execute(explain_sql)
     plan = result.map { |row| row['QUERY PLAN'] }.join("\n")
-    plan.include?(expected_index)
+    plan.downcase.include?(expected_index.downcase)
   end
 
   private
@@ -27,4 +25,3 @@ class PostgresqlIndexChecker < IndexChecker
     sql
   end
 end
-

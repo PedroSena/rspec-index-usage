@@ -11,7 +11,7 @@ class SqliteIndexChecker < IndexChecker
     explain_sql = "EXPLAIN QUERY PLAN #{sql}"
     result = connection.execute(explain_sql)
     plan = result.map { |row| row.values.join(' ') }.join(' ')
-    plan.include?(expected_index)
+    plan.downcase.include?(expected_index.downcase)
   end
 
   private
@@ -24,4 +24,3 @@ class SqliteIndexChecker < IndexChecker
     sql
   end
 end
-
